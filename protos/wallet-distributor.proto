@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package wallet_distributor;
+
+service WalletDistributorService {
+    rpc GetWalletBalanceByDtId(IGetWalletBalanceByDtIdRequest) returns (IGetWalletBalanceByDtIdResponse) {}
+}
+
+message IGetWalletBalanceByDtIdRequest {
+    string dtId = 1;
+}
+
+message IGetWalletBalanceByDtIdResponse {
+    double balance = 2;
+}

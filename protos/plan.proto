@@ -1,0 +1,233 @@
+syntax = "proto3";
+
+package plan;
+
+import "promotion.proto";
+
+service PlanService {
+  rpc GetInsuPrice(GetInsuPriceRequest) returns (GetInsuPriceResponse) {}
+  rpc GetTravelInsuPrice(GetTravelInsuPriceRequest) returns (GetInsuPriceResponse) {}
+  rpc GetInsuPriceForDistributor(IGetInsuPriceForDistributorRequest) returns (IGetInsuPriceForDistributorResponse) {}
+  rpc GetIntendedUses(IGetIntendedUsesRequest) returns (IGetIntendedUsesResponse) {}
+  rpc GetSpecialIntendedUses(IGetSpecialIntendedUsesRequest) returns (IGetSpecialIntendedUsesResponse) {}
+  rpc GetTelcoPackagePrice(IGetTelcoPackagePriceRequest) returns (IGetTelcoPackagePriceResponse) {}
+  rpc GetTelcoPackageActiveByPackageId(IGetTelcoPackageActiveByPackageIdRequest) returns (IGetTelcoPackageActiveByPackageIdResponse) {}
+  rpc GetShipInsuPrice(IGetShipInsuPriceRequest) returns (GetInsuPriceResponse) {}
+  rpc GetTelevisionPlanPrice(IGetTelevisionPlanPriceRequest) returns (IGetTelevisionPlanPriceResponse) {}
+}
+
+message GetInsuPriceRequest {
+  string planId = 1;
+  optional string motorbikeyType = 2;
+  optional string intendedUse = 3;
+  optional string specialIntendedUse = 4;
+  optional int32 numberOfSeats = 5;
+  optional int32 loadLimit = 6;
+  int32 insurancePeriod = 7;
+  string conditionJsonString = 8;
+  optional int32 addonNumberOfSeats = 9;
+  optional int64 paymentLimit = 10;
+  optional string voucherCode = 11;
+  optional string transId = 12;
+  optional bool flagUseVoucher = 13;
+  optional int32 provider = 14;
+}
+
+message GetTravelInsuPriceRequest {
+  string planId = 1;
+  string conditionJsonString = 2;
+  int32 numberOfDays = 3;
+  int32 numberOfPeople = 4;
+  optional string additionalInsuAddon = 5;
+  optional int32 program = 6;
+  optional string packageTravel = 7;
+  optional int32 numberOfChildrenUnder18 = 8;
+  optional int32 numberOfChildrenOver18 = 9;
+  optional string voucherCode = 10;
+  optional string transId = 11;
+  optional bool flagUseVoucher = 12;
+}
+
+message IGetTelcoPackagePriceRequest {
+  string packageId = 1;
+  string telcoId = 2;
+  string dtId = 3;
+  string spId = 4;
+  optional string voucherCode = 5;
+  optional string transId = 6;
+  optional bool flagUseVoucher = 7;
+}
+
+message GetInsuPriceData {
+  string planId = 1;
+  int32 amount = 2;
+  optional int32 limitOfRescueAmount = 3;
+
+}
+
+message GetTelcoPackagePriceData {
+  string planId = 1;
+  int32 amount = 2;
+}
+
+message GetInsuPriceResponse {
+  int64 amount = 1;
+  int64 originAmountIncludeVat = 2;
+  int64 originAmount = 3;
+  int64 amountOfPromotion = 4;
+  int64 addonAmount = 5;
+  repeated GetInsuPriceData insuPrices = 6;
+  repeated promotion.Promotion promotions = 7;
+  repeated promotion.VoucherPromotions voucherPromotions = 8;
+  int64 amountOfVoucherPromotion = 9;
+  optional int32 errorCodeVoucher = 10;
+  int64 originAddonAmount = 11;
+}
+
+message IGetTelcoPackagePriceResponse {
+  int64 amount = 1;
+  int64 amountOfPromotion = 2;
+  repeated promotion.Promotion promotions = 3;
+  string promotionLabel = 4;
+  int64 telcoPackagePrices = 5;
+  repeated promotion.VoucherPromotions voucherPromotions = 6;
+  int64 amountOfVoucherPromotion = 7;
+  optional int32 errorCodeVoucher = 8;
+  optional int32 originAmount = 9;
+  string voucherPromotionLabel = 10;
+}
+
+message IGetInsuPriceForDistributorRequest {
+  string dtId = 1;
+  int32 provider = 2;
+  string planId = 3;
+  optional string motorbikeyType = 4;
+  optional int32 addonNumberOfSeats = 5;
+  optional int64 paymentLimit = 6;
+  optional string referralCode = 7;
+  optional int32 insurancePeriod = 8;
+  optional string intendedUse = 9;
+  optional int32 numberOfSeats = 10;
+  optional int32 loadLimit = 11;
+  optional string specialIntendedUse = 12;
+}
+
+message IGetInsuPriceForDistributorResponseData {
+  int64 amount = 1;
+  int64 originAmountIncludeVat = 2;
+  int64 originAmount = 3;
+  optional string promotionLabel = 4;
+  int64 vat = 5;
+  optional int64 addonAmount = 6;
+  optional int64 amountOfPromotion = 7;
+}
+
+message IGetInsuPriceForDistributorResponse {
+  int32 status = 1;
+  string message = 2;
+  optional IGetInsuPriceForDistributorResponseData data = 3;
+}
+
+message IGetIntendedUsesRequest {
+  int32 provider = 1;
+  int32 isTransportationBusiness = 2;
+}
+
+message IGetIntendedUsesResponseData {
+  string id = 1;
+  string name = 2;
+  int32 minNumberOfSeats = 3;
+  int32 maxNumberOfSeats = 4;
+  repeated int32 suggestNumberOfSeatList = 5;
+  int32 isRequireLoadLimit = 6;
+  optional int32 minLoadLimit = 7;
+  optional int32 maxLoadLimit = 8;
+  repeated int32 suggestLoadLimitList = 9;
+}
+
+message IGetIntendedUsesResponse {
+  int32 status = 1;
+  string message = 2;
+  repeated IGetIntendedUsesResponseData data = 3;
+}
+
+
+message IGetSpecialIntendedUsesRequest {
+  int32 provider = 1;
+  string intendedUse = 2;
+  optional int32 numberOfSeats = 3;
+  optional int32 loadLimit = 4;
+}
+
+message IGetSpecialIntendedUsesResponseData {
+  string id = 1;
+  string name = 2;
+}
+
+message IGetSpecialIntendedUsesResponse {
+  int32 status = 1;
+  string message = 2;
+  repeated IGetSpecialIntendedUsesResponseData data = 3;
+}
+
+message IGetTelcoPackageActiveByPackageIdRequest {
+  string packageId = 1;
+  string telcoId = 2;
+}
+
+message TelcoPackage {
+  string telcoId = 1;
+  string type = 2;
+  string packageId = 3;
+  string duration = 4;
+  int32 providerId = 5;
+}
+
+message IGetTelcoPackageActiveByPackageIdResponse {
+  TelcoPackage data = 1;
+}
+
+message IGetShipInsuPriceRequest {
+  string planId = 1;
+  string conditionJsonString = 2;
+  optional string typeShip = 3;
+  optional int32 paymentLimit = 4;
+  optional float load = 5;
+  optional float horsepower = 6;
+  optional bool isBuyAddOn = 7;
+  optional string speed = 8;
+  optional int32 numberOfSeats = 9;
+  optional int32 numberOfCrews = 10;
+  optional string voucherCode = 11;
+  optional string transId = 12;
+  optional bool flagUseVoucher = 13;
+}
+
+message IGetTelevisionPlanPriceRequest {
+  string dtId = 1;
+  string planGroup = 2;
+  string planId = 3;
+  string duration = 4;
+  string spId = 5;
+  optional string voucherCode = 6;
+  optional string transId = 7;
+  optional bool flagUseVoucher = 8;
+  int32 quantity = 9;
+}
+
+message IGetTelevisionPlanPriceResponse {
+  PriceDetailTelevisionPlan data = 1;
+  string message = 2;
+  bool status = 3;
+}
+
+message PriceDetailTelevisionPlan {
+  int64 amount = 1;
+  int64 originAmountIncludeVat = 2;
+  int64 originAmount = 3;
+  int64 amountOfPromotion = 4;
+  repeated promotion.Promotion promotions = 5;
+  repeated promotion.VoucherPromotions voucherPromotions = 6;
+  int64 amountOfVoucherPromotion = 7;
+  optional int32 errorCodeVoucher = 8;
+}

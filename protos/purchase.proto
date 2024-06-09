@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package purchase;
+
+service PurchaseService {
+  rpc CreatePayment(ICreatePaymentRequest) returns (ICreatePaymentResponse) {}
+  rpc ValidatePayment(ICreatePaymentRequest) returns (ICreatePaymentResponse) {}
+  rpc CreatePaymentTelcoHub(ICreatePaymentTelcoHubRequest) returns (ICreatePaymentTelcoHubResponse) {}
+  rpc GetFileBase64(IGetFileBase64Request) returns (IGetFileBase64Response) {}
+}
+
+message ICreatePaymentRequest {
+    optional int32 provider = 1;
+    optional string planId = 2;
+    optional string paymentMethod = 3;
+    optional string buyerEmail = 4;
+    optional string buyerPhoneNumber = 5;
+    optional string effectiveDate = 6;
+    optional int32 insurancePeriod = 7;
+    optional string ownerFullName = 8;
+    optional string ownerAddress = 9;
+    optional bool unregistered = 10;
+    optional string registrationPlate = 11;
+    optional string engineNumber = 12;
+    optional string chassisNumber = 13;
+    optional int64 amount = 14;
+    optional string dtId = 15;
+    optional string referralCode = 16;
+    optional int32 addonNumberOfSeats = 17;
+    optional int64 paymentLimit = 18;
+    optional string motorbikeyType = 19;
+    optional string intendedUse = 20;
+    optional int32 numberOfSeats = 21;
+    optional int32 loadLimit = 22;
+    optional string specialIntendedUse = 23;
+    optional string transactionId = 24;
+    optional string ip = 25;
+    optional string callbackURL = 26;
+}
+
+message ICreatePaymentResponseData {
+  optional string certificateURL = 1;
+  optional string certificateNo = 2;
+  optional string effectiveDate = 3;  
+  optional string endEffectiveDate = 4;
+}
+
+message ICreatePaymentResponse {
+    int32 status = 1;
+    string message = 2;
+    optional ICreatePaymentResponseData data = 3;
+}
+
+message ICreatePaymentTelcoHubRequest {
+  string transactionId = 1;
+  string dtId = 2;
+  string buyerPhoneNumber = 3;
+  string packageId = 4;
+  string telcoId = 5;
+  string callbackURL = 6;
+  optional string spIdAffiliate = 7;
+  optional string ip = 8;
+  optional string referralCode = 9;
+}
+
+message ICreatePaymentTelcoHubResponse {
+  int32 status = 1;
+  string message = 2;
+}
+
+message IGetFileBase64Request {
+  string id = 1;
+}
+
+message IGetFileBase64Response {
+  FileBase64 data = 1;
+}
+
+message FileBase64 {
+  string id = 1;
+  string fileName = 2;
+  string fileEncodeBase64 = 3;
+  string fileType = 4;
+}

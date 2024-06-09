@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package location;
+
+service LocationService {
+  rpc GetCountryByCode(GetCountryByCodeRequest) returns (GetCountryByCodeResponse) {}
+  rpc ConvertLocalAddress(ConvertLocalAddressRequest) returns (ConvertLocalAddressResponse) {}
+  rpc GetCityByCode(GetCityByCodeRequest) returns (GetCityByCodeResponse) {}
+}
+
+message GetCountryByCodeRequest {
+  string lang = 1;
+  repeated string countryCodes = 2;
+}
+
+message GetCountryByCodeResponse {
+  repeated string countries = 1;
+}
+
+message ConvertLocalAddressRequest {
+  string address = 1;
+}
+
+message ConvertLocalAddressResponse {
+  string addressName = 1;
+  string cityName = 2;
+  string districtName = 3;
+  string wardName = 4;
+  string regionName = 5;
+  string regionCode = 6;
+  string detailAddress = 7;
+  string city = 8;
+  string district = 9;
+  string ward = 10;
+}
+
+message GetCityByCodeRequest {
+  repeated string cityCodes = 1;
+}
+
+message GetCityByCodeResponse {
+  repeated string cities = 1;
+}

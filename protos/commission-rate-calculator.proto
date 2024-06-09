@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package commission_rate_calculator;
+
+service CommissionRateCalculatorService {
+  rpc CalculatorCommission(CalculatorCommissionRequest) returns (CalculatorCommissionResponse) {}
+  rpc GetCommissionRateCollaborator(GetCommissionRateCollaboratorRequest) returns (GetCommissionRateCollaboratorResponse) {}
+  rpc GetCommissionRateTelcoDistributor(GetCommissionRateTelcoDistributorRequest) returns (GetCommissionRateTelcoDistributorResponse) {}
+}
+
+message DetailPrice {
+  int64 originAmount = 1;
+  int64 originAmountIncludeVat = 2;
+  int64 originAddonAmount = 3;
+  int64 addonAmount = 4;
+  int64 amount = 5;
+  string paymentType = 6;
+}
+
+message CalculatorCommissionRequest {
+  DetailPrice detailPrice = 1;
+  optional string conditionJsonString = 2;
+}
+
+message CalculatorCommissionData {
+  float commissionRate = 1;
+  int64 amount = 2;
+  int64 amountDistributor = 3;
+  float commissionRateDistributor = 4;
+  float commissionRateDistributorReality = 5;
+  int64 amountTeam = 6;
+  float commissionRateTeam = 7;
+  float commissionRateTeamReality = 8;
+  string calculateCommissionType = 9;
+}
+
+message CalculatorCommissionResponse {
+  CalculatorCommissionData data = 1;
+}
+
+message GetCommissionRateCollaboratorRequest {
+  string uid = 1;
+  string planId = 2;
+  string planType = 3;
+  string planGroup = 4;
+  optional string telcoId = 5;
+}
+
+message GetCommissionRateCollaboratorResponse {
+  CommissionRateCollaborator data = 1;
+}
+
+message CommissionRateCollaborator{
+  string uid = 1;
+  optional string dtId = 2;
+  string teamId = 3;
+  bool configCommissionRatePlanId = 4;
+}
+
+message GetCommissionRateTelcoDistributorRequest {
+  string dtId = 1;
+}
+
+message GetCommissionRateTelcoDistributorResponse {
+  repeated ConfigTelco configTelco = 1;
+}
+
+message ConfigTelco {
+  string telcoId = 1;
+  string type = 2;
+  float value = 3;
+}

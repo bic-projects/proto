@@ -1,0 +1,211 @@
+syntax = "proto3";
+
+package auth_cms;
+
+service AuthCmsService {
+  rpc GetDistributors(GetDistributorsRequest) returns (GetDistributorsResponse) {}
+  rpc GetDistributorById(GetDistributorByIdRequest) returns (GetDistributorByIdResponse) {}
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
+  rpc GetCollaboratorBySpId(GetCollaboratorBySpIdRequest) returns (GetCollaboratorBySpIdResponse) {}
+  rpc GetCollaboratorById(GetCollaboratorByIdRequest) returns (GetCollaboratorByIdResponse) {}
+  rpc GetMapCollaborators(IGetMapCollaboratorsRequest) returns (IGetMapCollaboratorsResponse) {}
+  rpc GetAllCollaboratorsByTeamId(IGetAllCollaboratorsByTeamIdRequest) returns (IGetAllCollaboratorsByTeamIdResponse) {}
+  rpc GetMapTeams(IGetMapTeamsRequest) returns (IGetMapTeamsResponse) {}
+  rpc GetTeamById(GetTeamByIdRequest) returns (GetTeamByIdResponse) {}
+  rpc CheckCollaboratorWithCommission(CheckCollaboratorWithCommissionRequest) returns (CheckCollaboratorWithCommissionResponse) {}
+  rpc GetCountDistributors(GetCountDistributorsRequest) returns (GetCountResponse) {}
+  rpc GetCountTeams(GetCountTeamsRequest) returns (GetCountResponse) {}
+  rpc GetCountCollaborators(GetCountCollaboratorsRequest) returns (GetCountResponse) {}
+}
+
+message Team {
+    string id = 1;
+    string name = 2;
+    string dtId = 3;
+    optional string nameDistributor = 4;
+    int32 status = 5;
+}
+
+message IMapCollaborator {
+    string id = 1;
+    string name = 2;
+    optional string nameTeam = 3;
+    optional string nameDistributor = 4;
+}
+
+message Distributor {
+  string id = 1;
+  string name = 2;
+  string redirectUrl = 3;
+  repeated Team teams = 4;
+  string secret = 5;
+  optional string prefix = 6;
+  int32 status = 7;
+  repeated string types = 8;
+  optional string publicKeyRSA = 9;
+}
+
+message GetDistributorsRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    optional string name = 3;
+    optional string id = 4;
+    repeated string ids = 5;
+    repeated string notIds = 6;
+    optional int32 status = 7;
+    optional string type = 8;
+}
+
+message GetDistributorsResponse {
+    repeated Distributor data = 1;
+    int32 total = 2;
+}
+
+message GetDistributorByIdRequest {
+    string id = 1;
+}
+
+message GetDistributorByIdResponse {
+    Distributor data = 1;
+}
+message PayoutConfigs {
+  string bankCode = 1;
+  string bankAccount = 2;
+  string bankAccountName = 3;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string phone = 4;
+  string dtId = 5;
+  string spId = 6;
+  optional string bankCode = 7;
+  optional string bankAccount = 8;
+  optional string bankAccountName = 9;
+  string teamId = 10;
+  repeated PayoutConfigs payoutConfigs = 11;
+}
+
+message GetUsersRequest {
+    repeated string uids = 1;
+    repeated string spIds = 2;
+    int32 page = 3;
+    int32 limit = 4;
+}
+
+message GetUsersResponse {
+    repeated User data = 1;
+}
+
+message GetUserByIdRequest {
+    string id = 1;
+}
+
+message GetUserByIdResponse {
+    User data = 1;
+}
+
+message GetCollaboratorBySpIdRequest {
+    string spId = 1;
+}
+
+message GetCollaboratorByIdRequest {
+    string id = 1;
+}
+
+message GetCollaboratorBySpIdResponse {
+    User data = 1;
+}
+
+message GetCollaboratorByIdResponse {
+    User data = 1;
+}
+
+message IGetMapCollaboratorsRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    repeated string ids = 3;
+    repeated string notIds = 4;
+    repeated string teamIds = 5;
+    optional string nameDistributor = 6;
+    optional string nameTeam = 7;
+    optional string nameCollaborator = 8;
+    optional string dtId = 9;
+    optional int32 isRetailCollaborator = 10;
+    optional string id = 11;
+    optional int32 status = 12;
+}
+
+message IGetMapCollaboratorsResponse {
+    repeated IMapCollaborator data = 1;
+    int32 total = 2;
+}
+
+message IGetAllCollaboratorsByTeamIdRequest {
+    string teamId = 1;
+}
+
+message IGetAllCollaboratorsByTeamIdResponse {
+    repeated IMapCollaborator data = 1;
+}
+
+message IGetMapTeamsRequest {
+    int32 page = 1;
+    int32 limit = 2;
+    optional string nameDistributor = 3;
+    optional string nameTeam = 4;
+    repeated string ids = 5;
+    repeated string notIds = 6;
+    optional string dtId = 7;
+    optional string id = 8;
+    optional int32 status = 9;
+}
+
+message IGetMapTeamsResponse {
+    repeated Team data = 1;
+    int32 total = 2;
+}
+
+message GetTeamByIdRequest {
+    string id = 1;
+}
+
+message GetTeamByIdResponse {
+    Team data = 1;
+}
+
+message CheckCollaboratorWithCommissionRequest {
+    string referralCode = 1;
+    string planType = 2;
+    string planGroup = 3;
+    string planId = 4;
+    optional string telcoId = 5;
+}
+
+message CheckCollaboratorWithCommissionResponse {
+    User data = 1;
+    string messageError = 2;
+}
+
+message GetCountDistributorsRequest {
+    repeated string ids = 1;
+}
+
+message GetCountTeamsRequest {
+    repeated string ids = 1;
+    optional string dtId = 2;
+}
+
+message GetCountCollaboratorsRequest {
+    repeated string ids = 1;
+    optional string dtId = 2;
+    optional string teamId = 3;
+    optional int32 isRetailCollaborator = 4;
+}
+
+message GetCountResponse {
+    int32 total = 1;
+}

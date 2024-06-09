@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package commission_rate_cms;
+
+service CommissionRateCmsService {
+  rpc DeleteCommissionRateCmsCollaborator(DeleteCommissionRateCmsCollaboratorRequest) returns (DeleteCommissionRateCmsCollaboratorResponse) {}
+}
+
+message DeleteCommissionRateCmsCollaboratorRequest {
+  string uid = 1;
+}
+
+message DeleteCommissionRateCmsCollaboratorResponse {
+  bool data = 1;
+}
+

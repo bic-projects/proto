@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package promotion;
+
+service PromotionService {
+  rpc Promotion(PromotionRequest) returns (PromotionResponse) {}
+}
+
+message Promotion {
+    string id = 1;
+    string name = 2;
+    int32 type = 3;
+    float value = 4;
+    int32 maxAmount = 5;
+    int32 amount = 6;
+}
+
+message PromotionData {
+    repeated Promotion promotions = 1;
+    int32 totalPromotionAmount = 2;
+    int32 amount = 3;
+    repeated VoucherPromotions voucherPromotions = 4;
+    int32 totalVoucherPromotionAmount = 5;
+    optional int32 errorCodeVoucher = 6;
+    optional bool warningVoucherSuitable = 7;
+}
+
+message VoucherPromotions {
+  string voucherCode = 1;
+  string campaignId = 2;
+  int32 promotionType = 3;
+  int32 discountMoney = 4;
+  DiscountPercent discountPercent = 5;
+  bool combineWithOther = 6;
+  int32 amount = 7;
+  string campaignName = 8;
+}
+
+message DiscountPercent {
+  float discountPercentValue = 1;
+  optional int32 maxiumMoneyValue = 2;
+}
+
+message PromotionRequest {
+  int32 amount = 1;
+  optional string conditionJsonString = 2;
+  int32 amountIncludeVat = 3;
+  optional string voucherCode = 4;
+  optional bool flagUseVoucher = 5;
+  optional string transId = 6;
+}
+
+message PromotionResponse {
+  PromotionData data = 1;
+}

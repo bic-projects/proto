@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package plan_cms;
+
+service PlanCmsService {
+  rpc GetMappingTelevisionPlan(GetMappingTelevisionPlanRequest) returns (GetMappingTelevisionPlanResponse) {}
+}
+
+message GetMappingTelevisionPlanRequest {
+}
+
+message GetMappingTelevisionPlanResponse {
+  repeated PlanGroupTelevisionMapping data = 1; 
+}
+
+message PlanGroupTelevisionMapping {
+  string id = 1;
+  string name = 2;
+  repeated PlanTelevisionMapping plans = 3;
+}
+
+message PlanTelevisionMapping {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}

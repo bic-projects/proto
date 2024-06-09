@@ -1,0 +1,108 @@
+syntax = "proto3";
+
+package evoucher_provider;
+
+service EVoucherProviderService {
+  rpc GetTelevisionPlan(GetTelevisionPlanRequest) returns (GetTelevisionPlanResponse) {}
+  rpc GetPriceTelevisionPlan(GetPriceTelevisionPlanRequest) returns (GetPriceTelevisionPlanResponse) {}
+  rpc GetMappingTelevisionPlan(GetMappingTelevisionPlanRequest) returns (GetMappingTelevisionPlanResponse) {}
+  rpc AddTelevisionPlan(AddTelevisionPlanRequest) returns (AddTelevisionPlanResponse) {}
+  rpc GetRemainQuantityTelevisionPlan(GetRemainQuantityTelevisionPlanRequest) returns (GetRemainQuantityTelevisionPlanResponse) {}
+  rpc GetEVoucherTelevisionPlan(GetEVoucherTelevisionPlanRequest) returns (GetEVoucherTelevisionPlanResponse) {}
+}
+message GetEVoucherTelevisionPlanRequest {
+  string transId = 1;
+}
+
+message GetEVoucherTelevisionPlanResponse {
+  repeated string listProviderEVoucher = 1;
+}
+
+message GetRemainQuantityTelevisionPlanRequest {
+  int32 provider = 1;
+  string planId = 2;
+  string duration = 3;
+}
+
+message GetRemainQuantityTelevisionPlanResponse {
+  RemainQuantityTelevisionPlan data = 1;
+  string message = 2;
+  bool status = 3;
+}
+
+message RemainQuantityTelevisionPlan {
+  int32 quantity = 1;
+}
+
+message AddTelevisionPlanRequest {
+  string planGroup = 1;
+  string planId = 2;
+  string duration = 3;
+  string buyerEmail = 4;
+  string transId = 5;
+  int32 quantity = 6;
+  int64 amount = 7;
+  string buyerPhoneNumber = 8;
+}
+
+message AddTelevisionPlanResponse {
+  bool status = 1;
+  string message = 2;
+}
+
+message GetMappingTelevisionPlanRequest {
+}
+
+message GetMappingTelevisionPlanResponse {
+  repeated PlanGroupTelevisionMapping data = 1; 
+}
+
+message PlanGroupTelevisionMapping {
+  string id = 1;
+  string name = 2;
+  repeated PlanTelevisionMapping plans = 3;
+}
+
+message PlanTelevisionMapping {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message GetTelevisionPlanRequest {
+  int32 provider = 1;
+}
+
+message GetTelevisionPlanResponse {
+  repeated TelevisionPlan data = 1;
+}
+
+message TelevisionPlan {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated DurationTelevisionPlan duration = 4;
+}
+
+message DurationTelevisionPlan {
+  string id = 1;
+  string duration = 2;
+  int64 price = 3;
+}
+
+message GetPriceTelevisionPlanRequest {
+  string planId = 1;
+  string duration = 2;
+  int32 provider = 3;
+  int32 quantity = 4;
+}
+
+message GetPriceTelevisionPlanResponse {
+  PriceTelevisionPlan data = 1;
+  string message = 2;
+  bool status = 3;
+}
+
+message PriceTelevisionPlan {
+  int64 price = 1;
+}

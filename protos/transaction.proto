@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package transaction;
+
+service TransService {
+  rpc GetTransInfo(GetTransInfoRequest) returns (GetTransInfoResponse) {}
+}
+
+message GetTransInfoRequest {
+  string transId = 1;
+}
+
+message GetTransInfoResponse {
+  TransInfo data = 1;
+}
+
+message TransInfo {
+  string transId = 1;
+  int32 status = 2;
+  string extra = 3;
+}
